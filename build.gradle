@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+ext {
+    slf4jVersion = '2.11.1'
+    springVersion = '5.1.0.RELEASE'
+}
+
+jar {
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+libsDirName = "/opt/${rootProject.name}"
+buildDir = "/tmp"
+
+dependencies {
+    compile "org.apache.logging.log4j:log4j-slf4j18-impl:${project.slf4jVersion}"
+    compile 'commons-daemon:commons-daemon:1.1.0'
+    compile "org.springframework:spring-context:${project.springVersion}"
+    compile "org.springframework:spring-core:${project.springVersion}"
+}
+
+repositories {
+    jcenter()
+}
+
+test {
+    useJUnitPlatform()
+}
